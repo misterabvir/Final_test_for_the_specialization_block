@@ -3,27 +3,43 @@ USE HumanFriends;
 DROP TABLE IF EXISTS `Commands`;
 
 CREATE TABLE IF NOT EXISTS `Commands`(
-    `id` INT AUTO_INCREMENT PRIMARY KEY,
-    `name` VARCHAR(50),
-    `animal_id` int,
-    CONSTRAINT fk_animal Foreign Key (`animal_id`) REFERENCES `Animals`(`id`)
+    `command_id` CHAR(36) PRIMARY KEY,
+    `command_name` VARCHAR(50),
+    `title_id` CHAR(36),
+    CONSTRAINT fk_available_command Foreign Key (`title_id`) REFERENCES `Titles`(`title_id`) ON DELETE CASCADE
 );
-INSERT INTO `Commands`(`name`, `animal_id`)
+INSERT INTO `Commands`(`command_id`, `command_name`, `title_id`)
 VALUES 
-    ("Sit", 1), ("Stay", 1), ("Fetch", 1),
-    ("Sit", 2), ("Pounce", 2),
-    ("Roll", 3), ("Hide", 3),
-    ("Sit", 4), ("Paw", 4), ("Bark", 4),
-    ("Sit", 5), ("Pounce", 5), ("Scratch", 5),
-    ("Roll", 6), ("Spin", 6),
-    ("Sit", 7), ("Stay", 7), ("Roll", 7),
-    ("Meow", 8), ("Scratch", 8), ("Jump", 8),
-    ("Trot", 9), ("Canter", 9), ("Gallop", 9),
-    ("Walk", 10), ("Carry Load", 10),
-    ("Walk", 11), ("Carry Load", 11), ("Bray", 11),
-    ("Trot", 12), ("Canter", 12),
-    ("Walk", 13), ("Sit", 13),
-    ("Walk", 14), ("Bray", 14), ("Kick", 14),
-    ("Trot", 15), ("Jump", 15), ("Gallop", 15),
-    ("Walk", 16), ("Run", 16);
+    (UUID(), "Sit",        (SELECT `title_id` FROM Titles WHERE `title_name` = "Dog")),
+    (UUID(), "Stay",       (SELECT `title_id` FROM Titles WHERE `title_name` = "Dog")),
+    (UUID(), "Fetch",      (SELECT `title_id` FROM Titles WHERE `title_name` = "Dog")),
+    (UUID(), "Paw",        (SELECT `title_id` FROM Titles WHERE `title_name` = "Dog")),
+    (UUID(), "Bark",       (SELECT `title_id` FROM Titles WHERE `title_name` = "Dog")),
+    (UUID(), "Roll",       (SELECT `title_id` FROM Titles WHERE `title_name` = "Dog")),
+    (UUID(), "Sit",        (SELECT `title_id` FROM Titles WHERE `title_name` = "Cat")),
+    (UUID(), "Pounce",     (SELECT `title_id` FROM Titles WHERE `title_name` = "Cat")),
+    (UUID(), "Scratch",    (SELECT `title_id` FROM Titles WHERE `title_name` = "Cat")),
+    (UUID(), "Meow",       (SELECT `title_id` FROM Titles WHERE `title_name` = "Cat")),
+    (UUID(), "Jump",       (SELECT `title_id` FROM Titles WHERE `title_name` = "Cat")),
+    (UUID(), "Hide",       (SELECT `title_id` FROM Titles WHERE `title_name` = "Hamster")),
+    (UUID(), "Spin",       (SELECT `title_id` FROM Titles WHERE `title_name` = "Hamster")),
+    (UUID(), "Roll",       (SELECT `title_id` FROM Titles WHERE `title_name` = "Hamster")),
+    (UUID(), "Trot",       (SELECT `title_id` FROM Titles WHERE `title_name` = "Horse")),
+    (UUID(), "Canter",     (SELECT `title_id` FROM Titles WHERE `title_name` = "Horse")),
+    (UUID(), "Gallop",     (SELECT `title_id` FROM Titles WHERE `title_name` = "Horse")),
+    (UUID(), "Jump",       (SELECT `title_id` FROM Titles WHERE `title_name` = "Horse")),
+    (UUID(), "Walk",       (SELECT `title_id` FROM Titles WHERE `title_name` = "Camel")),
+    (UUID(), "Carry Load", (SELECT `title_id` FROM Titles WHERE `title_name` = "Camel")),
+    (UUID(), "Sit",        (SELECT `title_id` FROM Titles WHERE `title_name` = "Camel")),
+    (UUID(), "Run",        (SELECT `title_id` FROM Titles WHERE `title_name` = "Camel")),
+    (UUID(), "Walk",       (SELECT `title_id` FROM Titles WHERE `title_name` = "Donkey")),
+    (UUID(), "Carry Load", (SELECT `title_id` FROM Titles WHERE `title_name` = "Donkey")),
+    (UUID(), "Bray",       (SELECT `title_id` FROM Titles WHERE `title_name` = "Donkey")),
+    (UUID(), "Kick",       (SELECT `title_id` FROM Titles WHERE `title_name` = "Donkey"));
+
+SELECT c.`command_name`, t.`title_name`
+FROM `Commands` AS c
+JOIN `Titles` AS t ON t.`title_id` = c.`title_id`;
+
+
 
